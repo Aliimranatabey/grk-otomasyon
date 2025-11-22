@@ -4,7 +4,7 @@
       <div class="text-center mb-8">
         <h1 class="text-h4 font-weight-bold mb-2 app-title">GRK OTOMASYON</h1>
         <p class="text-subtitle-1 text-grey-lighten-1 welcome-text">
-          HOS GELDIN <span class="wave-emoji">👋🏻</span>
+          Hoş Geldiniz <span class="wave-emoji">👋🏻</span>
         </p>
       </div>
 
@@ -165,7 +165,7 @@ const handleSubmit = async () => {
     })
     
     if (success) {
-       router.push('/dashboard')
+       router.push('/dailyRoutineCheck')
     }
   } else {
     const success = await authStore.login({

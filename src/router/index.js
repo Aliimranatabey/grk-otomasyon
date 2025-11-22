@@ -19,40 +19,40 @@ const router = createRouter({
             meta: { guest: true, layout: 'BlankLayout' }
         },
         {
-            path: '/modul1',
-            name: 'modul1',
-            component: () => import('../views/Modul1View.vue'),
+            path: '/dailyRoutineCheck',
+            name: 'dailyRoutineCheck',
+            component: () => import('../views/DailyRoutineCheck.vue'),
             meta: { requiresAuth: true, layout: 'DefaultLayout' }
         },
         // Placeholder Routes
         {
             path: '/ping',
             name: 'ping',
-            component: () => import('../views/Modul1View.vue'), // Temporary
+            component: () => import('../views/DailyRoutineCheck.vue'), // Temporary
             meta: { requiresAuth: true, layout: 'DefaultLayout' }
         },
         {
             path: '/wifi',
             name: 'wifi',
-            component: () => import('../views/Modul1View.vue'), // Temporary
+            component: () => import('../views/DailyRoutineCheck.vue'), // Temporary
             meta: { requiresAuth: true, layout: 'DefaultLayout' }
         },
         {
             path: '/cpe',
             name: 'cpe',
-            component: () => import('../views/Modul1View.vue'), // Temporary
+            component: () => import('../views/DailyRoutineCheck.vue'), // Temporary
             meta: { requiresAuth: true, layout: 'DefaultLayout' }
         },
         {
             path: '/pc',
             name: 'pc',
-            component: () => import('../views/Modul1View.vue'), // Temporary
+            component: () => import('../views/DailyRoutineCheck.vue'), // Temporary
             meta: { requiresAuth: true, layout: 'DefaultLayout' }
         },
         {
             path: '/settings',
             name: 'settings',
-            component: () => import('../views/Modul1View.vue'), // Temporary
+            component: () => import('../views/DailyRoutineCheck.vue'), // Temporary
             meta: { requiresAuth: true, layout: 'DefaultLayout' }
         }
     ]
@@ -64,7 +64,7 @@ router.beforeEach((to, from, next) => {
     if (to.meta.requiresAuth && !authStore.isAuthenticated) {
         next('/login')
     } else if (to.meta.guest && authStore.isAuthenticated) {
-        next('/modul1')
+        next('/dailyRoutineCheck')
     } else {
         next()
     }

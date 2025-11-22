@@ -9,14 +9,12 @@
       width="280"
       color="transparent"
     >
-      <div class="d-flex align-center pa-6 mb-4">
-        <div class="logo-circle mr-3">
-          <v-icon icon="mdi-cube-outline" color="white" size="24"></v-icon>
-        </div>
-        <span class="text-h6 font-weight-bold text-white">GRK Otomasyon</span>
+      <div class="d-flex justify-center pa-2 mb-1 mt-2"> 
+        <img src="https://asset.turktelekom.com.tr/SiteAssets/images/logo.svg" alt="Türk Telekom Logo">
       </div>
+      
 
-      <v-list class="px-4" nav>
+      <v-list class="px-4 mt-3" nav>
         <v-list-item
           v-for="(item, i) in mainMenuItems"
           :key="i"
@@ -57,16 +55,7 @@
     <!-- App Bar -->
     <v-app-bar app flat class="glass-app-bar" height="70">
       <v-app-bar-nav-icon @click="drawer = !drawer" class="text-white ml-2"></v-app-bar-nav-icon>
-      
-      <v-spacer></v-spacer>
-
-      <div class="d-flex align-center mr-4">
-        <v-avatar size="40" class="glass-avatar cursor-pointer">
-          <v-img src="https://cdn.vuetifyjs.com/images/lists/2.jpg" alt="User"></v-img>
-        </v-avatar>
-      </div>
     </v-app-bar>
-
     <v-main>
       <v-container fluid class="fill-height align-start pa-6">
         <slot />
@@ -86,7 +75,7 @@ const authStore = useAuthStore()
 const router = useRouter()
 
 const handleLogout = () => {
-  authStore.logoutUser()
+  authStore.logout()
   router.push('/login')
 }
 </script>
