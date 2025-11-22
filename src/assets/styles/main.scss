@@ -45,3 +45,23 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.3);
 }
+
+/* Tüm kartlar için varsayılan glass efekti */
+.v-card {
+  background: rgba(255, 255, 255, 0.7) !important; /* Light mod için */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Dark mod için özelleştirme */
+.v-theme--dark .v-card {
+  background: rgba(30, 30, 30, 0.6) !important; /* Dark mod için yarı saydam */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Vuetify arka planını kesin olarak kaldırmak için */
+.v-application, .v-application__wrap {
+  background: transparent !important;
+  background-color: transparent !important;
+}

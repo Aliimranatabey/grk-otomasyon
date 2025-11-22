@@ -1,7 +1,5 @@
 <template>
   <v-app>
-    <LiquidBackground />
-    
     <!-- Navigation Drawer -->
     <v-navigation-drawer
       v-model="drawer"
@@ -81,7 +79,6 @@
 import { ref } from 'vue'
 import { useAuthStore } from '@/store/auth'
 import { useRouter } from 'vue-router'
-import LiquidBackground from '@/components/ui/LiquidBackground.vue'
 import { mainMenuItems } from '@/router/menu'
 
 const drawer = ref(true)

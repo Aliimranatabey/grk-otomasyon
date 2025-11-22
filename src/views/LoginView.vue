@@ -1,10 +1,5 @@
 <template>
   <div class="login-container">
-    <!-- Liquid Background Elements -->
-    <div class="liquid-shape shape-1"></div>
-    <div class="liquid-shape shape-2"></div>
-    <div class="liquid-shape shape-3"></div>
-
     <v-card class="login-card glass-effect" elevation="0">
       <div class="text-center mb-8">
         <h1 class="text-h4 font-weight-bold mb-2 app-title">GRK OTOMASYON</h1>
@@ -193,7 +188,7 @@ const handleSubmit = async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #050511; /* Default Dark */
+  background-color: transparent;
   color: white;
   overflow: hidden;
   font-family: 'Inter', sans-serif;
