@@ -12,8 +12,6 @@
       <div class="d-flex justify-center pa-2 mb-1 mt-2"> 
         <img src="https://asset.turktelekom.com.tr/SiteAssets/images/logo.svg" alt="Türk Telekom Logo">
       </div>
-      
-
       <v-list class="px-4 mt-3" nav>
         <v-list-item
           v-for="(item, i) in mainMenuItems"
@@ -55,8 +53,10 @@
     <!-- App Bar -->
     <v-app-bar app flat class="glass-app-bar" height="70">
       <v-app-bar-nav-icon @click="drawer = !drawer" class="text-white ml-2"></v-app-bar-nav-icon>
+        <span class="text-h6 font-weight-bold text-white">GÜNLÜK RUTİN KONTROL</span>
+        <v-spacer></v-spacer>
     </v-app-bar>
-    <v-main>
+    <v-main class="scrollable-content">
       <v-container fluid class="fill-height align-start pa-6">
         <slot />
       </v-container>
@@ -65,14 +65,18 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useAuthStore } from '@/store/auth'
 import { useRouter } from 'vue-router'
 import { mainMenuItems } from '@/router/menu'
 
+
+
 const drawer = ref(true)
 const authStore = useAuthStore()
 const router = useRouter()
+
+
 
 const handleLogout = () => {
   authStore.logout()
@@ -81,6 +85,16 @@ const handleLogout = () => {
 </script>
 
 <style scoped lang="scss">
+
+.scrollable-content {
+  // Sadece v-main içeriğinin kaydırılabilir olmasını sağlamak için
+  // v-main'in yüksekliğini Viewport'a (görüntü alanına) göre sınırlıyoruz.
+  height: 100vh;
+  overflow-y: auto; 
+  
+  // App Bar'ın ve Drawer'ın kapladığı alanı Vuetify zaten hesaplar, 
+  // ancak overflow'u manuel olarak ayarlamamız gerekebilir.
+}
 .glass-drawer {
   background: rgba(0, 0, 0, 0.3) !important;
   backdrop-filter: blur(20px);
@@ -96,6 +110,9 @@ const handleLogout = () => {
 .glass-list-item {
   color: rgba(255, 255, 255, 0.7) !important;
   transition: all 0.3s ease;
+  max-height: 20px;
+  overflow-y: auto;
+  
   
   &:hover {
     background: rgba(255, 255, 255, 0.05);

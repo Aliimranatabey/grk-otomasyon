@@ -1,23 +1,7 @@
 <template>
   <v-container class="fill-height align-start" fluid>
-    <div class="w-100">
-      <!-- Header Section -->
-      <div class="d-flex justify-space-between align-center mb-6">
-        <h1 class="text-h4 font-weight-bold text-white">GÜNLÜK RUTİN KONTROL</h1>
-        <span class="text-h6 text-grey-lighten-1">Hoş geldin, {{ userInitials }}</span>
-      </div>
-
-      <!-- Module Title -->
-       <div class="d-flex align-center mb-6">
-          <div class="icon-box mr-4">
-            <v-icon icon="mdi-wifi-strength-4" color="white" size="24"></v-icon>
-          </div>
-          <h2 class="text-h5 font-weight-bold text-white mb-0">Wi-Fi Analiz & Hız Testi</h2>
-        </div>
-
-      <!-- Main Content Grid -->
+    <div class="w-100 h-100">
       <v-row>
-        <!-- Left Card: Wi-Fi Analiz -->
         <v-col cols="12" md="6">
           <v-card class="glass-card pa-8 h-100">
             <div class="d-flex align-center mb-6">
@@ -26,7 +10,7 @@
 
             <v-form>
               <div class="mb-6">
-                <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mb-2 d-block">Süre (sn)</label>
+                <label class="text-subtitle-1 text-grey-lighten-1 font-weight-small mb-2 d-block">Süre (sn)</label>
                 <v-text-field
                   v-model="wifiSettings.duration"
                   type="number"
@@ -57,7 +41,7 @@
                   color="primary"
                   size="large"
                   width="100%"
-                  height="56"
+                  height="50"
                   class="text-capitalize font-weight-bold glass-btn"
                   rounded="xl"
                   elevation="0"
@@ -184,7 +168,7 @@
                   color="primary"
                   size="large"
                   width="100%"
-                  height="56"
+                  height="50"
                   class="text-capitalize font-weight-bold glass-btn"
                   rounded="xl"
                   elevation="0"
@@ -205,7 +189,7 @@
           size="x-large"
           width="100%"
           max-width="600"
-          height="64"
+          height="55"
           class="text-capitalize font-weight-bold glass-btn text-h6"
           rounded="xl"
           elevation="0"
@@ -216,7 +200,7 @@
       </div>
 
       <!-- Footer Navigation -->
-      <div class="d-flex justify-space-between align-center mt-6 px-2">
+      <div class="d-flex justify-space-between align-center  px-2">
         <v-btn
           color="white"
           variant="outlined"
@@ -224,7 +208,7 @@
           size="large"
           class="px-6 glass-btn-outline"
           rounded="xl"
-          @click="$router.go(-1)"
+          to="/ping"
         >
           Önceki Sekme
         </v-btn>

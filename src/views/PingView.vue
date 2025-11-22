@@ -1,15 +1,7 @@
 <template>
   <v-container class="fill-height align-start" fluid>
     <div class="w-100">
-      <!-- Header Section -->
-      <div class="d-flex justify-space-between align-center mb-6">
-        <h1 class="text-h4 font-weight-bold text-white">GÜNLÜK RUTİN KONTROL</h1>
-        <span class="text-h6 text-grey-lighten-1">Hoş geldin, {{ userInitials }}</span>
-      </div>
-
-      <!-- Main Content Grid -->
       <v-row>
-        <!-- Left Card: IP Addresses Management -->
         <v-col cols="12" md="6">
           <v-card class="glass-card pa-8 h-100">
             <div class="d-flex align-center mb-6">
@@ -186,7 +178,7 @@
           size="large"
           class="px-6 glass-btn-outline"
           rounded="xl"
-          @click="$router.go(-1)"
+          to="/dailyRoutineCheck"
         >
           Önceki Sekme
         </v-btn>
@@ -209,18 +201,6 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useAuthStore } from '../store/auth'
-// import { useAppStore } from '../store/appStore' // Uncomment if needed
-
-const authStore = useAuthStore()
-// const appStore = useAppStore()
-
-const userInitials = computed(() => {
-  if (authStore.user && authStore.user.name) {
-    return authStore.user.name
-  }
-  return 'Kullanıcı'
-})
 
 // Mock Data for IP Addresses
 const ipAddresses = ref([

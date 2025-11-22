@@ -1,23 +1,7 @@
 <template>
   <v-container class="fill-height align-start" fluid>
     <div class="w-100">
-      <!-- Header Section -->
-      <div class="d-flex justify-space-between align-center mb-6">
-        <h1 class="text-h4 font-weight-bold text-white">GÜNLÜK RUTİN KONTROL</h1>
-        <span class="text-h6 text-grey-lighten-1">Hoş geldin, {{ userInitials }}</span>
-      </div>
-
-      <!-- Module Title -->
-       <div class="d-flex align-center mb-6">
-          <div class="icon-box mr-4">
-            <v-icon icon="mdi-monitor" color="white" size="24"></v-icon>
-          </div>
-          <h2 class="text-h5 font-weight-bold text-white mb-0">PC Kontrol Modülü</h2>
-        </div>
-
-      <!-- Main Content Grid -->
       <v-row>
-        <!-- Left Card: YouTube & Torrent -->
         <v-col cols="12" md="6">
           <v-card class="glass-card pa-8 h-100">
             <div class="d-flex align-center mb-6">
@@ -65,17 +49,28 @@
                     class="glass-input flex-grow-1"
                   ></v-text-field>
                 </div>
-                <div class="d-flex justify-end gap-4 mt-4">
-                   <v-btn
-                    color="secondary"
-                    height="48"
-                    class="text-capitalize font-weight-bold glass-btn px-6"
-                    rounded="xl"
-                    elevation="0"
-                    @click="selectFile"
-                  >
-                    Dosya Seç
-                  </v-btn>
+                <div class="d-flex justify-space-between gap-4 mt-4">
+                <div>
+                    <v-btn
+                      color="secondary"
+                      height="48"
+                      class="text-capitalize font-weight-bold glass-btn px-6"
+                      rounded="xl"
+                      elevation="0"
+                      @click="selectFile"
+                    >
+                      Dosya Seç
+                    </v-btn>
+
+                    <input
+                      type="file"
+                      ref="fileInputRef"
+                      style="display: none"
+                      @change="handleFileChange"
+                      accept="image/*,.pdf" >
+                    
+                    <p class="mt-3" v-if="selectedFile">{{ selectedFile.name }} adlı dosya seçildi.</p>
+                  </div>
                   <v-btn
                     color="primary"
                     height="48"
@@ -158,21 +153,9 @@
           size="large"
           class="px-6 glass-btn-outline"
           rounded="xl"
-          @click="$router.go(-1)"
+          to="/cpe"
         >
           Önceki Sekme
-        </v-btn>
-
-        <v-btn
-          color="white"
-          variant="outlined"
-          append-icon="mdi-chevron-right"
-          size="large"
-          class="px-6 glass-btn-outline"
-          rounded="xl"
-          to="/modul1" 
-        >
-          Sonraki Sekme
         </v-btn>
       </div>
     </div>
@@ -184,6 +167,50 @@ import { ref, computed } from 'vue'
 import { useAuthStore } from '../store/auth'
 
 const authStore = useAuthStore()
+// Dosya input elementine erişim için ref oluşturuyoruz
+const fileInputRef = ref(null);
+
+// Seçilen dosyayı tutmak için ref oluşturuyoruz
+const selectedFile = ref(null);
+
+/**
+ * Butona tıklandığında gizli input'u tetikler.
+ */
+const selectFile = () => {
+  // `fileInputRef.value` ile input elementine erişim
+  if (fileInputRef.value) {
+    fileInputRef.value.click();
+  }
+};
+
+/**
+ * @function handleFileChange
+ * Kullanıcı bir dosya seçtiğinde tetiklenir.
+ * @param {Event} event - change olayı
+ */
+const handleFileChange = (event) => {
+  const files = event.target.files;
+  
+  if (files.length > 0) {
+    // İlk dosyayı al ve ref'e ata
+    selectedFile.value = files[0];
+    
+    console.log('✅ Seçilen Dosya Adı:', selectedFile.value.name);
+    console.log('📁 Seçilen Dosya Obj:', selectedFile.value);
+
+    // TODO: Burada dosyayı sunucuya yükleme veya işleme kodunu çağırın.
+    // Örneğin: uploadFile(selectedFile.value);
+    
+  } else {
+    // Dosya seçimi iptal edildi.
+    selectedFile.value = null;
+    console.log('Dosya seçimi iptal edildi.');
+  }
+
+  // (İsteğe bağlı) Aynı dosyayı tekrar seçebilmek için input değerini sıfırlama
+  // Bu olmadan aynı dosyayı tekrar seçince `@change` tetiklenmez.
+  event.target.value = '';
+};
 
 const userInitials = computed(() => {
   if (authStore.user && authStore.user.name) {
@@ -200,9 +227,9 @@ const startYoutube = () => {
   console.log('Starting YouTube with link:', youtubeLink.value)
 }
 
-const selectFile = () => {
-  console.log('Selecting file for Torrent')
-}
+// const selectFile = () => {
+//   console.log('Selecting file for Torrent')
+// }
 
 const startTorrent = () => {
   console.log('Starting Torrent with magnet:', torrentMagnet.value)

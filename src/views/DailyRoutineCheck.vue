@@ -1,15 +1,7 @@
 <template>
   <v-container class="fill-height align-start" fluid>
-    <div class="w-100">
-      <!-- Header Section -->
-      <div class="d-flex justify-space-between align-center mb-6">
-        <h1 class="text-h4 font-weight-bold text-white">GÜNLÜK RUTİN KONTROL</h1>
-        <span class="text-h6 text-grey-lighten-1">Hoş geldin, {{ userInitials }}</span>
-      </div>
-
-      <!-- Main Content Grid -->
+    <div class="w-100 h-100">
       <v-row>
-        <!-- Left Card: Device and Test Information -->
         <v-col cols="12" md="6">
           <v-card class="glass-card pa-8 h-100">
             <div class="d-flex align-center mb-6">
@@ -18,7 +10,6 @@
               </div>
               <h2 class="text-h5 font-weight-bold text-white mb-0">Cihaz ve Test Bilgileri</h2>
             </div>
-            
             <v-form>
               <v-row>
                 <v-col cols="12" class="py-3">
@@ -246,6 +237,7 @@
           size="large"
           class="px-6 glass-btn-outline"
           rounded="xl"
+          to="/ping"
         >
           Sonraki Sekme
         </v-btn>

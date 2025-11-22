@@ -1,46 +1,31 @@
 <template>
   <v-container class="fill-height align-start" fluid>
-    <div class="w-100">
-      <!-- Header Section -->
-      <div class="d-flex justify-space-between align-center mb-6">
-        <h1 class="text-h4 font-weight-bold text-white">GÜNLÜK RUTİN KONTROL</h1>
-        <span class="text-h6 text-grey-lighten-1">Hoş geldin, {{ userInitials }}</span>
-      </div>
-
-      <!-- Module Title -->
-       <div class="d-flex align-center mb-6">
-          <div class="icon-box mr-4">
-            <v-icon icon="mdi-router-wireless" color="white" size="24"></v-icon>
-          </div>
-          <h2 class="text-h5 font-weight-bold text-white mb-0">CPE Kontrol / Modem Otomasyonu</h2>
-        </div>
-
-      <!-- Main Content -->
+    <div class="w-100 h-100">
       <v-row>
         <v-col cols="12">
           <v-card class="glass-card pa-8">
             <div class="d-flex align-center mb-2">
-              <h2 class="text-h4 font-weight-bold text-primary mb-0">Modem Seçimi</h2>
+              <h2 class="text-h5 font-weight-bold text-primary mb-0">Modem Seçimi</h2>
             </div>
             <p class="text-subtitle-1 text-grey-lighten-1 mb-6">
               Lütfen test etmek istediğiniz modemi listeden seçiniz.
             </p>
 
-            <v-list bg-color="transparent" class="modem-list">
+            <v-list bg-color="transparent" style="max-height: 80%; overflow-y: auto;">
               <v-list-item
                 v-for="(modem, index) in modems"
                 :key="index"
-                class="glass-list-item mb-4 pa-4"
+                class="glass-list-item mb-3 pa-4"
                 rounded="xl"
               >
                 <template v-slot:prepend>
                   <div class="d-flex align-center" style="width: 200px;">
-                    <span class="text-h6 font-weight-bold text-white">{{ modem.name }}</span>
+                    <span class="text-h7 font-weight-bold text-white">{{ modem.name }}</span>
                   </div>
                 </template>
 
                 <div class="d-flex justify-center flex-grow-1">
-                  <span class="text-subtitle-1 text-grey-lighten-1">{{ modem.tech }}</span>
+                  <span class="text-subtitle-2 text-grey-lighten-1">{{ modem.tech }}</span>
                 </div>
 
                 <template v-slot:append>
@@ -51,6 +36,7 @@
                     hide-details
                     inset
                     class="ms-4"
+                    style="max-height: 20px;"
                   ></v-switch>
                 </template>
               </v-list-item>
