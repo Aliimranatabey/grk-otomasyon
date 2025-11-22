@@ -20,7 +20,7 @@
   height: 100vh;
   overflow: hidden;
   z-index: -1;
-  background: #f0f4f8;
+  background: #000000;
 }
 
 .blob {
@@ -36,7 +36,7 @@
   left: -10%;
   width: 50vw;
   height: 50vw;
-  background: linear-gradient(135deg, #BEE3F8, #C3DAFE);
+  background: linear-gradient(135deg, #0A84FF, #5E5CE6);
   animation-duration: 25s;
 }
 
@@ -45,7 +45,7 @@
   right: -10%;
   width: 60vw;
   height: 60vw;
-  background: linear-gradient(135deg, #E9D8FD, #BEE3F8);
+  background: linear-gradient(135deg, #5E5CE6, #30D158);
   animation-duration: 30s;
   animation-delay: -5s;
 }
@@ -55,7 +55,7 @@
   left: 40%;
   width: 40vw;
   height: 40vw;
-  background: linear-gradient(135deg, #FED7D7, #FEEBC8);
+  background: linear-gradient(135deg, #FF375F, #FF9F0A);
   animation-duration: 22s;
   animation-delay: -10s;
 }
@@ -66,7 +66,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(60px); /* Global blur to smooth everything out */
 }
 
@@ -77,14 +77,5 @@
   100% {
     transform: translate(50px, 50px) rotate(20deg);
   }
-}
-
-// Dark mode adjustments
-:global(.v-theme--dark) .liquid-background {
-  background: #000000;
-}
-
-:global(.v-theme--dark) .overlay {
-  background: rgba(0, 0, 0, 0.4);
 }
 </style>

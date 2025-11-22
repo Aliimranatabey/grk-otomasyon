@@ -25,17 +25,8 @@ const vuetify = createVuetify({
         },
     },
     theme: {
-        defaultTheme: 'light',
+        defaultTheme: 'dark',
         themes: {
-            light: {
-                colors: {
-                    primary: '#007AFF', // Apple Blue
-                    secondary: '#5856D6', // Apple Purple
-                    accent: '#34C759', // Apple Green
-                    background: '#F5F5F7', // Apple Light Gray
-                    surface: '#FFFFFF',
-                },
-            },
             dark: {
                 colors: {
                     primary: '#0A84FF',
@@ -60,22 +51,8 @@ import { useAuthStore } from './store/auth'
 const authStore = useAuthStore()
 authStore.loadTokenFromStorage()
 
-// Initialize App Store & Theme
+// Initialize App Store
 import { useAppStore } from './store/appStore'
-import { watch } from 'vue'
-
 const appStore = useAppStore()
-appStore.initializeTheme()
-
-// Set initial Vuetify theme
-vuetify.theme.global.name.value = appStore.currentTheme
-
-// Watch for theme changes in store and update Vuetify
-watch(
-    () => appStore.currentTheme,
-    (newTheme) => {
-        vuetify.theme.global.name.value = newTheme
-    }
-)
 
 app.mount('#app')

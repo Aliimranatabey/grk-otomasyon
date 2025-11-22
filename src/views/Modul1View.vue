@@ -2,131 +2,125 @@
   <v-container class="fill-height align-start" fluid>
     <div class="w-100">
       <!-- Header Section -->
-      <div class="d-flex justify-space-between align-center mb-4">
+      <div class="d-flex justify-space-between align-center mb-6">
         <h1 class="text-h4 font-weight-bold text-white">GÜNLÜK RUTİN KONTROL</h1>
         <span class="text-h6 text-grey-lighten-1">Hoş geldin, {{ userInitials }}</span>
-      </div>
-
-      <!-- Navigation Tabs -->
-      <div class="d-flex justify-center mb-8">
-        <v-tabs
-          v-model="activeTab"
-          bg-color="rgba(255, 255, 255, 0.1)"
-          slider-color="primary"
-          class="rounded-lg glass-tabs"
-          density="comfortable"
-        >
-          <v-tab value="home" class="text-capitalize">Ana Sayfa</v-tab>
-          <v-tab value="ping" class="text-capitalize">Ping</v-tab>
-          <v-tab value="wifi" class="text-capitalize">Wi-Fi Analiz</v-tab>
-          <v-tab value="cpe" class="text-capitalize">CPE Kontrol</v-tab>
-          <v-tab value="pc" class="text-capitalize">PC Kontrol</v-tab>
-        </v-tabs>
       </div>
 
       <!-- Main Content Grid -->
       <v-row>
         <!-- Left Card: Device and Test Information -->
         <v-col cols="12" md="6">
-          <v-card class="glass-card pa-6 h-100">
+          <v-card class="glass-card pa-8 h-100">
             <div class="d-flex align-center mb-6">
-              <v-icon icon="mdi-cog" color="white" class="mr-3"></v-icon>
+              <div class="icon-box mr-4">
+                <v-icon icon="mdi-cog" color="white" size="24"></v-icon>
+              </div>
               <h2 class="text-h5 font-weight-bold text-white mb-0">Cihaz ve Test Bilgileri</h2>
             </div>
             
             <v-form>
               <v-row>
-                <v-col cols="12" class="py-2">
+                <v-col cols="12" class="py-3">
                   <div class="d-flex align-center">
-                    <label class="text-subtitle-2 text-blue font-weight-bold mr-4" style="width: 100px;">Marka</label>
+                    <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mr-4" style="width: 120px;">Marka</label>
                     <v-select
                       v-model="deviceInfo.brand"
                       :items="['TP-Link', 'Huawei', 'ZTE']"
                       variant="solo"
-                      bg-color="rgba(255,255,255,0.1)"
-                      density="compact"
+                      bg-color="rgba(255,255,255,0.05)"
+                      density="comfortable"
                       hide-details
                       class="glass-input"
+                      menu-icon="mdi-chevron-down"
                     ></v-select>
                   </div>
                 </v-col>
 
-                <v-col cols="12" class="py-2">
+                <v-col cols="12" class="py-3">
                   <div class="d-flex align-center">
-                    <label class="text-subtitle-2 text-blue font-weight-bold mr-4" style="width: 100px;">Model</label>
+                    <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mr-4" style="width: 120px;">Model</label>
                     <v-select
                       v-model="deviceInfo.model"
                       :items="['ARCHER-C5V1', 'HG255s', 'H298A']"
                       variant="solo"
-                      bg-color="rgba(255,255,255,0.1)"
-                      density="compact"
+                      bg-color="rgba(255,255,255,0.05)"
+                      density="comfortable"
                       hide-details
                       class="glass-input"
+                      menu-icon="mdi-chevron-down"
                     ></v-select>
                   </div>
                 </v-col>
 
-                <v-col cols="12" class="py-2">
+                <v-col cols="12" class="py-3">
                   <div class="d-flex align-center">
-                    <label class="text-subtitle-2 text-blue font-weight-bold mr-4" style="width: 100px;">Firmware</label>
+                    <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mr-4" style="width: 120px;">Firmware</label>
                     <v-text-field
                       v-model="deviceInfo.firmware"
                       placeholder="Firmware Belirtiniz..."
                       variant="solo"
-                      bg-color="rgba(255,255,255,0.1)"
-                      density="compact"
+                      bg-color="rgba(255,255,255,0.05)"
+                      density="comfortable"
                       hide-details
                       class="glass-input"
                     ></v-text-field>
                   </div>
                 </v-col>
 
-                <v-col cols="12" class="py-2">
+                <v-col cols="12" class="py-3">
                   <div class="d-flex align-center">
-                    <label class="text-subtitle-2 text-blue font-weight-bold mr-4" style="width: 100px;">Süre (sn)</label>
+                    <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mr-4" style="width: 120px;">Süre (sn)</label>
                     <v-text-field
                       v-model="deviceInfo.duration"
                       type="number"
                       variant="solo"
-                      bg-color="rgba(255,255,255,0.1)"
-                      density="compact"
+                      bg-color="rgba(255,255,255,0.05)"
+                      density="comfortable"
                       hide-details
                       class="glass-input"
                     ></v-text-field>
                   </div>
                 </v-col>
 
-                <v-col cols="12" class="py-2">
+                <v-col cols="12" class="py-3">
                   <div class="d-flex align-center">
-                    <label class="text-subtitle-2 text-blue font-weight-bold mr-4" style="width: 100px;">Sunucu</label>
+                    <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mr-4" style="width: 120px;">Sunucu</label>
                     <v-select
                       v-model="deviceInfo.server"
                       :items="['GRK-1', 'GRK-2', 'GRK-3']"
                       variant="solo"
-                      bg-color="rgba(255,255,255,0.1)"
-                      density="compact"
+                      bg-color="rgba(255,255,255,0.05)"
+                      density="comfortable"
                       hide-details
                       class="glass-input"
+                      menu-icon="mdi-chevron-down"
                     ></v-select>
                   </div>
                 </v-col>
               </v-row>
 
-              <div class="d-flex flex-column align-center mt-6 gap-3">
+              <div class="d-flex flex-column align-center mt-8 gap-3">
                 <v-btn
-                  color="success"
+                  color="#30D158"
                   prepend-icon="mdi-plus"
-                  width="200"
-                  class="text-capitalize"
+                  width="240"
+                  height="48"
+                  class="text-capitalize font-weight-bold glass-btn"
+                  rounded="xl"
+                  elevation="0"
                 >
                   Yeni Cihaz Ekle
                 </v-btn>
                 
                 <v-btn
-                  color="primary"
+                  color="#0A84FF"
                   prepend-icon="mdi-play"
-                  width="200"
-                  class="text-capitalize mt-3"
+                  width="240"
+                  height="48"
+                  class="text-capitalize mt-4 font-weight-bold glass-btn"
+                  rounded="xl"
+                  elevation="0"
                   @click="startAll"
                 >
                   Tümünü Başlat
@@ -138,72 +132,78 @@
 
         <!-- Right Card: Modules to Run -->
         <v-col cols="12" md="6">
-          <v-card class="glass-card pa-6 h-100">
+          <v-card class="glass-card pa-8 h-100">
             <div class="d-flex align-center mb-6">
-              <v-icon icon="mdi-view-list" color="white" class="mr-3"></v-icon>
+              <div class="icon-box mr-4" style="background: rgba(94, 92, 230, 0.2);">
+                <v-icon icon="mdi-view-list" color="white" size="24"></v-icon>
+              </div>
               <h2 class="text-h5 font-weight-bold text-white mb-0">Çalıştırılacak Modüller</h2>
             </div>
 
             <v-list bg-color="transparent" class="pa-0">
-              <v-list-item class="px-0 py-2">
+              <v-list-item class="px-0 py-3 border-bottom">
                 <template v-slot:prepend>
-                  <span class="text-subtitle-1 font-weight-bold text-blue">Ping</span>
+                  <span class="text-h6 font-weight-regular text-white">Ping</span>
                 </template>
                 <template v-slot:append>
                   <v-switch
                     v-model="modules.ping"
-                    color="blue"
+                    color="#0A84FF"
                     hide-details
                     inset
+                    class="custom-switch"
                   ></v-switch>
                 </template>
               </v-list-item>
 
-              <v-list-item class="px-0 py-2">
+              <v-list-item class="px-0 py-3 border-bottom">
                 <template v-slot:prepend>
-                  <span class="text-subtitle-1 font-weight-bold text-blue">Wi-Fi Analiz</span>
+                  <span class="text-h6 font-weight-regular text-white">Wi-Fi Analiz</span>
                 </template>
                 <template v-slot:append>
                   <v-switch
                     v-model="modules.wifi"
-                    color="blue"
+                    color="#0A84FF"
                     hide-details
                     inset
+                    class="custom-switch"
                   ></v-switch>
                 </template>
               </v-list-item>
 
-              <v-list-item class="px-0 py-2">
+              <v-list-item class="px-0 py-3 border-bottom">
                 <template v-slot:prepend>
-                  <span class="text-subtitle-1 font-weight-bold text-blue">PC Kontrol</span>
+                  <span class="text-h6 font-weight-regular text-white">PC Kontrol</span>
                 </template>
                 <template v-slot:append>
                   <v-switch
                     v-model="modules.pc"
-                    color="blue"
+                    color="#0A84FF"
                     hide-details
                     inset
+                    class="custom-switch"
                   ></v-switch>
                 </template>
               </v-list-item>
 
-              <v-list-item class="px-0 py-2">
+              <v-list-item class="px-0 py-3">
                 <template v-slot:prepend>
-                  <span class="text-subtitle-1 font-weight-bold text-blue">CPE Kontrol</span>
+                  <span class="text-h6 font-weight-regular text-white">CPE Kontrol</span>
                 </template>
                 <template v-slot:append>
                   <v-switch
                     v-model="modules.cpe"
-                    color="blue"
+                    color="#0A84FF"
                     hide-details
                     inset
+                    class="custom-switch"
                   ></v-switch>
                 </template>
               </v-list-item>
             </v-list>
 
             <!-- Pinia & Axios Integration Demo Section -->
-            <v-divider class="my-4 border-opacity-25"></v-divider>
+            <v-divider class="my-6 border-opacity-10"></v-divider>
             <div class="d-flex flex-column gap-2">
               <div class="d-flex justify-space-between align-center">
                 <span class="text-caption text-grey">Last Server Check (Pinia):</span>
@@ -240,10 +240,12 @@
       <!-- Footer Navigation -->
       <div class="position-absolute bottom-0 right-0 pa-6">
         <v-btn
-          color="primary"
+          color="white"
+          variant="outlined"
           append-icon="mdi-chevron-right"
           size="large"
-          class="px-6"
+          class="px-6 glass-btn-outline"
+          rounded="xl"
         >
           Sonraki Sekme
         </v-btn>
@@ -255,13 +257,11 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useAuthStore } from '../store/auth'
-
 import { useAppStore } from '../store/appStore'
 import api from '../services/api'
 
 const authStore = useAuthStore()
 const appStore = useAppStore()
-const activeTab = ref('home')
 
 const deviceInfo = ref({
   brand: 'TP-Link',
@@ -311,18 +311,78 @@ const userInitials = computed(() => {
 </script>
 
 <style scoped lang="scss">
-.glass-tabs {
-  backdrop-filter: blur(10px);
+.glass-card {
+  background: rgba(20, 20, 20, 0.6) !important;
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.glass-input {
+  :deep(.v-field) {
+    border-radius: 12px !important;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+    color: white;
+    
+    &.v-field--focused {
+      border-color: rgba(10, 132, 255, 0.5);
+      box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.1);
+      background: rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+  
+  :deep(input) {
+    color: white !important;
+    font-weight: 500;
+  }
+
+  :deep(.v-select__selection-text) {
+    color: white !important;
+  }
+}
+
+.icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  background: rgba(10, 132, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.glass-card {
-  background: rgba(30, 30, 30, 0.6) !important;
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+.glass-btn {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2) !important;
+  transition: transform 0.2s;
+  
+  &:active {
+    transform: scale(0.98);
+  }
 }
 
-/* Light mode overrides if needed, handled by global theme or specific classes */
+.glass-btn-outline {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: white;
+  }
+}
+
+.border-bottom {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.custom-switch {
+  :deep(.v-switch__track) {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    opacity: 1 !important;
+  }
+}
 </style>

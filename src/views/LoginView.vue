@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container" :class="{ 'light-mode': !appStore.isDarkTheme }">
+  <div class="login-container">
     <!-- Liquid Background Elements -->
     <div class="liquid-shape shape-1"></div>
     <div class="liquid-shape shape-2"></div>
@@ -49,7 +49,7 @@
           variant="solo"
           bg-color="rgba(255, 255, 255, 0.1)"
           color="white"
-          :theme="appStore.isDarkTheme ? 'dark' : 'light'"
+          theme="dark"
           hide-details
           class="glass-input mb-4"
           rounded="lg"
@@ -63,7 +63,7 @@
           variant="solo"
           bg-color="rgba(255, 255, 255, 0.1)"
           color="white"
-          :theme="appStore.isDarkTheme ? 'dark' : 'light'"
+          theme="dark"
           hide-details
           class="glass-input mb-4"
           rounded="lg"
@@ -79,7 +79,7 @@
           variant="solo"
           bg-color="rgba(255, 255, 255, 0.1)"
           color="white"
-          :theme="appStore.isDarkTheme ? 'dark' : 'light'"
+          theme="dark"
           hide-details
           class="glass-input mb-6"
           rounded="lg"
@@ -94,7 +94,7 @@
           variant="solo"
           bg-color="rgba(255, 255, 255, 0.1)"
           color="white"
-          :theme="appStore.isDarkTheme ? 'dark' : 'light'"
+          theme="dark"
           hide-details
           class="glass-input mb-6"
           rounded="lg"
@@ -140,16 +140,12 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useAuthStore } from '../store/auth'
-import { useAppStore } from '../store/appStore'
 import { useRouter } from 'vue-router'
-import { useTheme } from 'vuetify'
 
 const authStore = useAuthStore()
-const appStore = useAppStore()
 const router = useRouter()
-const theme = useTheme()
 
 const username = ref('')
 const password = ref('')
@@ -202,72 +198,6 @@ const handleSubmit = async () => {
   overflow: hidden;
   font-family: 'Inter', sans-serif;
   transition: background-color 0.5s ease, color 0.5s ease;
-
-  &.light-mode {
-    background-color: #F5F5F7; /* Light Background */
-    color: #1d1d1f;
-
-    .app-title {
-      color: #1d1d1f !important;
-    }
-    
-    .welcome-text {
-      color: #86868b !important;
-    }
-
-    .glass-effect-light {
-      background: rgba(0, 0, 0, 0.05);
-      border: 1px solid rgba(0, 0, 0, 0.05);
-      
-      .toggle-btn {
-        color: rgba(0, 0, 0, 0.6);
-        
-        &.active {
-          color: white;
-          background: #007AFF !important;
-        }
-        
-        &:hover:not(.active) {
-          color: black;
-          background: rgba(0,0,0,0.05);
-        }
-      }
-    }
-
-    .login-card {
-      background: rgba(255, 255, 255, 0.6) !important; /* Softer light background */
-      border: 1px solid rgba(255, 255, 255, 0.4); /* Subtle border */
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(40px); /* Increased blur */
-    }
-
-    .glass-input {
-      :deep(.v-field) {
-        background-color: rgba(0, 0, 0, 0.05) !important;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        
-        &.v-field--focused {
-          border-color: #007AFF;
-          background-color: rgba(255, 255, 255, 0.5) !important;
-        }
-      }
-      
-      :deep(input) {
-        color: #1d1d1f !important;
-      }
-      
-      :deep(.v-icon) {
-        color: #86868b !important;
-      }
-    }
-    
-    .hover-link {
-        color: #86868b !important;
-        &:hover {
-            color: #007AFF !important;
-        }
-    }
-  }
 }
 
 /* Liquid Shapes */
@@ -279,10 +209,6 @@ const handleSubmit = async () => {
   opacity: 0.6;
   animation: float 10s infinite ease-in-out;
   transition: opacity 0.5s ease;
-}
-
-.light-mode .liquid-shape {
-  opacity: 0.5; /* Slightly more visible in light mode */
 }
 
 .shape-1 {
