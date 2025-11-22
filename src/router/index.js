@@ -34,20 +34,20 @@ const router = createRouter({
         {
             path: '/wifi',
             name: 'wifi',
-            component: () => import('../views/DailyRoutineCheck.vue'), // Temporary
+            component: () => import('../views/WifiView.vue'),
             meta: { requiresAuth: true, layout: 'DefaultLayout' }
         },
         {
             path: '/cpe',
             name: 'cpe',
-            component: () => import('../views/DailyRoutineCheck.vue'), // Temporary
-            meta: { requiresAuth: true, layout: 'DefaultLayout' }
+            component: () => import('../views/CpeControlView.vue'),
+            meta: { requiresAuth: true }
         },
         {
             path: '/pc',
             name: 'pc',
-            component: () => import('../views/DailyRoutineCheck.vue'), // Temporary
-            meta: { requiresAuth: true, layout: 'DefaultLayout' }
+            component: () => import('../views/PcControlView.vue'),
+            meta: { requiresAuth: true }
         },
         {
             path: '/settings',
