@@ -12,7 +12,7 @@
           color="primary"
           size="x-large"
           rounded="pill"
-          to="/dashboard"
+          to="/dailyRoutineCheck"
           class="mb-12"
           elevation="4"
         >

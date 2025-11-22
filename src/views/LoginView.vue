@@ -165,7 +165,7 @@ const handleSubmit = async () => {
     })
     
     if (success) {
-       router.push('/dailyRoutineCheck')
+       router.push('/home')
     }
   } else {
     const success = await authStore.login({
@@ -174,7 +174,7 @@ const handleSubmit = async () => {
     })
 
     if (success) {
-      router.push('/dashboard')
+      router.push('/home')
     }
   }
 }
