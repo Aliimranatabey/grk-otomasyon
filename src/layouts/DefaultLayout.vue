@@ -10,7 +10,9 @@
       color="transparent"
     >
       <div class="d-flex justify-center pa-2 mb-1 mt-2"> 
-        <img src="https://asset.turktelekom.com.tr/SiteAssets/images/logo.svg" alt="Türk Telekom Logo">
+        <router-link to="/" class="cursor-pointer">
+          <img src="https://asset.turktelekom.com.tr/SiteAssets/images/logo.svg" alt="Türk Telekom Logo">
+        </router-link>
       </div>
       <v-list class="px-4 mt-3" nav>
         <v-list-item

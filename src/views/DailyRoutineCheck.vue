@@ -12,22 +12,7 @@
             </div>
             <v-form>
               <v-row>
-                <!-- Setup Selection -->
-                <v-col cols="12" class="py-3">
-                  <div class="d-flex align-center">
-                    <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mr-4" style="width: 120px;">Setup</label>
-                    <v-select
-                      v-model="appStore.selectedSetup"
-                      :items="setupOptions"
-                      variant="solo"
-                      bg-color="rgba(255,255,255,0.05)"
-                      density="comfortable"
-                      hide-details
-                      class="glass-input"
-                      menu-icon="mdi-chevron-down"
-                    ></v-select>
-                  </div>
-                </v-col>
+
 
                 <v-col cols="12" class="py-3">
                   <div class="d-flex align-center">
@@ -310,7 +295,6 @@ const authStore = useAuthStore()
 const appStore = useAppStore()
 
 // Data
-const setupOptions = ['GRK1', 'GRK2', 'GRK3', 'GRK4', 'GRK5', 'GRK6', 'GRK7', 'GRK8']
 const brandsData = ref([])
 const showAddDeviceDialog = ref(false)
 const savingDevice = ref(false)

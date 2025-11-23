@@ -3,7 +3,9 @@ import { ref, watch } from 'vue'
 
 export const useAppStore = defineStore('app', () => {
     // State
-    const selectedSetup = ref('GRK1') // Default setup
+    // State
+    // const selectedSetup = ref('GRK1') // Removed
+
     const deviceInfo = ref({
         brand: 'TP-Link',
         model: 'ARCHER-C5V1',
@@ -63,9 +65,7 @@ export const useAppStore = defineStore('app', () => {
     })
 
     // Actions
-    function setSetup(setup) {
-        selectedSetup.value = setup
-    }
+
 
     function setDeviceInfo(info) {
         deviceInfo.value = { ...deviceInfo.value, ...info }
@@ -107,7 +107,7 @@ export const useAppStore = defineStore('app', () => {
     }, { deep: true })
 
     return { 
-        selectedSetup,
+
         deviceInfo,
         globalConfig,
         homeTab,
@@ -115,7 +115,7 @@ export const useAppStore = defineStore('app', () => {
         wifiTab,
         cpeTab,
         pcTab,
-        setSetup,
+
         setDeviceInfo,
         addPingIp,
         removePingIp,
