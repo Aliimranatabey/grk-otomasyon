@@ -12,12 +12,13 @@
             </div>
             <v-form>
               <v-row>
+                <!-- Setup Selection -->
                 <v-col cols="12" class="py-3">
                   <div class="d-flex align-center">
-                    <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mr-4" style="width: 120px;">Marka</label>
+                    <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mr-4" style="width: 120px;">Setup</label>
                     <v-select
-                      v-model="deviceInfo.brand"
-                      :items="['TP-Link', 'Huawei', 'ZTE']"
+                      v-model="appStore.selectedSetup"
+                      :items="setupOptions"
                       variant="solo"
                       bg-color="rgba(255,255,255,0.05)"
                       density="comfortable"
@@ -30,17 +31,37 @@
 
                 <v-col cols="12" class="py-3">
                   <div class="d-flex align-center">
-                    <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mr-4" style="width: 120px;">Model</label>
-                    <v-select
-                      v-model="deviceInfo.model"
-                      :items="['ARCHER-C5V1', 'HG255s', 'H298A']"
+                    <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mr-4" style="width: 120px;">Marka</label>
+                    <v-combobox
+                      v-model="appStore.deviceInfo.brand"
+                      :items="brandOptions"
+                      item-title="title"
+                      item-value="value"
                       variant="solo"
                       bg-color="rgba(255,255,255,0.05)"
                       density="comfortable"
                       hide-details
                       class="glass-input"
                       menu-icon="mdi-chevron-down"
-                    ></v-select>
+                      @update:model-value="onBrandChange"
+                    ></v-combobox>
+                  </div>
+                </v-col>
+
+                <v-col cols="12" class="py-3">
+                  <div class="d-flex align-center">
+                    <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mr-4" style="width: 120px;">Model</label>
+                    <v-combobox
+                      v-model="appStore.deviceInfo.model"
+                      :items="modelOptions"
+                      variant="solo"
+                      bg-color="rgba(255,255,255,0.05)"
+                      density="comfortable"
+                      hide-details
+                      class="glass-input"
+                      menu-icon="mdi-chevron-down"
+                      :disabled="!appStore.deviceInfo.brand"
+                    ></v-combobox>
                   </div>
                 </v-col>
 
@@ -48,7 +69,7 @@
                   <div class="d-flex align-center">
                     <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mr-4" style="width: 120px;">Firmware</label>
                     <v-text-field
-                      v-model="deviceInfo.firmware"
+                      v-model="appStore.deviceInfo.firmware"
                       placeholder="Firmware Belirtiniz..."
                       variant="solo"
                       bg-color="rgba(255,255,255,0.05)"
@@ -63,7 +84,7 @@
                   <div class="d-flex align-center">
                     <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mr-4" style="width: 120px;">Süre (sn)</label>
                     <v-text-field
-                      v-model="deviceInfo.duration"
+                      v-model.number="appStore.globalConfig.defaultDuration"
                       type="number"
                       variant="solo"
                       bg-color="rgba(255,255,255,0.05)"
@@ -78,7 +99,7 @@
                   <div class="d-flex align-center">
                     <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mr-4" style="width: 120px;">Sunucu</label>
                     <v-select
-                      v-model="deviceInfo.server"
+                      v-model="appStore.deviceInfo.server"
                       :items="['GRK-1', 'GRK-2', 'GRK-3']"
                       variant="solo"
                       bg-color="rgba(255,255,255,0.05)"
@@ -100,6 +121,7 @@
                   class="text-capitalize font-weight-bold glass-btn"
                   rounded="xl"
                   elevation="0"
+                  @click="showAddDeviceDialog = true"
                 >
                   Yeni Cihaz Ekle
                 </v-btn>
@@ -138,7 +160,7 @@
                 </template>
                 <template v-slot:append>
                   <v-switch
-                    v-model="modules.ping"
+                    v-model="appStore.homeTab.modules.ping"
                     color="#0A84FF"
                     hide-details
                     inset
@@ -153,7 +175,7 @@
                 </template>
                 <template v-slot:append>
                   <v-switch
-                    v-model="modules.wifi"
+                    v-model="appStore.homeTab.modules.wifi"
                     color="#0A84FF"
                     hide-details
                     inset
@@ -168,7 +190,7 @@
                 </template>
                 <template v-slot:append>
                   <v-switch
-                    v-model="modules.pc"
+                    v-model="appStore.homeTab.modules.pc"
                     color="#0A84FF"
                     hide-details
                     inset
@@ -183,7 +205,7 @@
                 </template>
                 <template v-slot:append>
                   <v-switch
-                    v-model="modules.cpe"
+                    v-model="appStore.homeTab.modules.cpe"
                     color="#0A84FF"
                     hide-details
                     inset
@@ -243,39 +265,95 @@
         </v-btn>
       </div>
     </div>
+
+    <!-- Add Device Dialog -->
+    <v-dialog v-model="showAddDeviceDialog" max-width="500px">
+      <v-card class="glass-card pa-4">
+        <v-card-title class="text-h5 font-weight-bold text-white">Yeni Cihaz Ekle</v-card-title>
+        <v-card-text>
+          <v-form ref="newDeviceForm">
+            <v-text-field
+              v-model="newDevice.brand"
+              label="Marka Adı"
+              variant="solo"
+              bg-color="rgba(255,255,255,0.05)"
+              class="glass-input mb-4"
+              :rules="[v => !!v || 'Marka gereklidir']"
+            ></v-text-field>
+            <v-text-field
+              v-model="newDevice.model"
+              label="Model Adı"
+              variant="solo"
+              bg-color="rgba(255,255,255,0.05)"
+              class="glass-input mb-4"
+              :rules="[v => !!v || 'Model gereklidir']"
+            ></v-text-field>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="error" variant="text" @click="showAddDeviceDialog = false">İptal</v-btn>
+          <v-btn color="success" variant="text" @click="saveDevice" :loading="savingDevice">Kaydet</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useAuthStore } from '../store/auth'
 import { useAppStore } from '../store/appStore'
-import api from '../services/api'
+import api, { getBrands, saveNewDevice } from '../services/api'
 
 const authStore = useAuthStore()
 const appStore = useAppStore()
 
-const deviceInfo = ref({
-  brand: 'TP-Link',
-  model: 'ARCHER-C5V1',
-  firmware: '',
-  duration: 70000,
-  server: 'GRK-1'
-})
-
-const modules = ref({
-  ping: false,
-  wifi: false,
-  pc: false,
-  cpe: false
-})
-
+// Data
+const setupOptions = ['GRK1', 'GRK2', 'GRK3', 'GRK4', 'GRK5', 'GRK6', 'GRK7', 'GRK8']
+const brandsData = ref([])
+const showAddDeviceDialog = ref(false)
+const savingDevice = ref(false)
+const newDevice = ref({ brand: '', model: '' })
 const loadingData = ref(false)
 const apiResponse = ref(null)
 
+// Computed
+const brandOptions = computed(() => brandsData.value.map(b => b.title))
+const modelOptions = computed(() => {
+  const selectedBrand = brandsData.value.find(b => b.title === appStore.deviceInfo.brand)
+  return selectedBrand ? selectedBrand.models : []
+})
+
+// Methods
+const onBrandChange = () => {
+  appStore.deviceInfo.model = '' // Reset model when brand changes
+}
+
+const saveDevice = async () => {
+  if (!newDevice.value.brand || !newDevice.value.model) return
+  
+  savingDevice.value = true
+  try {
+    await saveNewDevice(newDevice.value.brand, newDevice.value.model)
+    // Refresh brands or add to local list
+    brandsData.value.push({
+      title: newDevice.value.brand,
+      value: newDevice.value.brand,
+      models: [newDevice.value.model]
+    })
+    showAddDeviceDialog.value = false
+    newDevice.value = { brand: '', model: '' }
+  } catch (error) {
+    console.error('Failed to save device', error)
+  } finally {
+    savingDevice.value = false
+  }
+}
+
 const startAll = () => {
-  console.log('Starting all modules:', modules.value)
-  console.log('Device Info:', deviceInfo.value)
+  console.log('Starting all modules:', appStore.homeTab.modules)
+  console.log('Device Info:', appStore.deviceInfo)
 }
 
 const fetchProtectedData = async () => {
@@ -294,11 +372,13 @@ const fetchProtectedData = async () => {
   }
 }
 
-const userInitials = computed(() => {
-  if (authStore.user && authStore.user.name) {
-    return authStore.user.name
+// Lifecycle
+onMounted(async () => {
+  try {
+    brandsData.value = await getBrands()
+  } catch (error) {
+    console.error('Failed to load brands', error)
   }
-  return 'test' // Default fallback as per screenshot
 })
 </script>
 

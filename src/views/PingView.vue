@@ -23,7 +23,7 @@
                 </v-col>
               </div>
 
-              <div v-for="(ip, index) in ipAddresses" :key="index" class="d-flex align-center mb-3">
+              <div v-for="(ip, index) in store.pingTab.pingList" :key="index" class="d-flex align-center mb-3">
                 <v-col cols="5" class="pa-0 pr-2">
                   <v-text-field
                     v-model="ip.ipv4"
@@ -33,6 +33,7 @@
                     density="compact"
                     hide-details
                     class="glass-input"
+                    :disabled="!store.pingTab.useIPv4"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="5" class="pa-0 pr-2">
@@ -44,6 +45,7 @@
                     density="compact"
                     hide-details
                     class="glass-input"
+                    :disabled="!store.pingTab.useIPv6"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="2" class="pa-0 d-flex justify-end">
@@ -105,7 +107,7 @@
               <v-row>
                 <v-col cols="12" sm="6">
                   <v-checkbox
-                    v-model="settings.useIPv4"
+                    v-model="store.pingTab.useIPv4"
                     label="IPv4 kullan"
                     color="primary"
                     hide-details
@@ -114,7 +116,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-checkbox
-                    v-model="settings.useIPv6"
+                    v-model="store.pingTab.useIPv6"
                     label="IPv6 kullan"
                     color="primary"
                     hide-details
@@ -124,16 +126,20 @@
               </v-row>
 
               <div class="mt-4">
-                <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mb-2 d-block">Ping adedi</label>
+                <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mb-2 d-block">Ping adedi (Süre)</label>
                 <v-text-field
-                  v-model="settings.pingCount"
+                  v-model.number="displayDuration"
                   type="number"
                   variant="solo"
                   bg-color="rgba(255,255,255,0.05)"
                   density="comfortable"
                   hide-details
                   class="glass-input"
+                  :placeholder="store.globalConfig.defaultDuration.toString()"
                 ></v-text-field>
+                <div class="text-caption text-grey-lighten-1 mt-1">
+                  Default: {{ store.globalConfig.defaultDuration }}ms
+                </div>
               </div>
 
               <div class="mt-6">
@@ -159,7 +165,8 @@
                   class="text-capitalize font-weight-bold glass-btn"
                   rounded="xl"
                   elevation="0"
-                  @click="startPing"
+                  @click="handleStartPing"
+                  :loading="loading"
                 >
                   Pingi Başlat
                 </v-btn>
@@ -200,56 +207,76 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { useAppStore } from '@/store/appStore'
+import { startPingTest } from '@/services/api'
 
-// Mock Data for IP Addresses
-const ipAddresses = ref([
-  { ipv4: '8.8.8.8', ipv6: '2001:4860:4860::8888' },
-  { ipv4: '192.168.1.1', ipv6: '2a03:2880:f212:1e4:f1c:f5f:4e45' },
-  { ipv4: 'Google.com', ipv6: '' }
-])
+const store = useAppStore()
+const pingProgress = ref(0)
+const loading = ref(false)
+
+// Initialize store data if empty
+onMounted(() => {
+  // Store is already initialized with defaults
+})
+
+const deviceInfoText = computed(() => {
+  const { brand, model, firmware } = store.deviceInfo
+  if (brand || model) {
+    return `${brand} / ${model} / ${firmware || 'No Firmware'}`
+  }
+  return 'Cihaz Seçilmedi (Home View)'
+})
+
+const displayDuration = computed({
+  get: () => store.pingTab.pingDuration ?? store.globalConfig.defaultDuration,
+  set: (val) => {
+    store.setPingDuration(val)
+  }
+})
 
 const addIpRow = () => {
-  ipAddresses.value.push({ ipv4: '', ipv6: '' })
+  store.pingTab.pingList.push({ ipv4: '', ipv6: '' })
 }
 
 const removeIpRow = (index) => {
-  ipAddresses.value.splice(index, 1)
+  store.pingTab.pingList.splice(index, 1)
 }
-
-// Ping Settings
-const settings = ref({
-  useIPv4: true,
-  useIPv6: false,
-  pingCount: 70000
-})
-
-const pingProgress = ref(0)
-
-// Mock Device Info - In a real app, this might come from a store or prop
-const deviceInfoText = ref('TP-Link / ARCHER-C5V1 / Firmware Belirtiniz...')
 
 const clearSettings = () => {
-  settings.value = {
-    useIPv4: true,
-    useIPv6: false,
-    pingCount: 70000
-  }
+  store.pingTab.pingList = [{ ipv4: '', ipv6: '' }]
+  store.setPingDuration(null)
+  store.pingTab.useIPv4 = true
+  store.pingTab.useIPv6 = false
   pingProgress.value = 0
 }
 
-const startPing = () => {
-  console.log('Starting Ping with settings:', settings.value)
-  console.log('IP Addresses:', ipAddresses.value)
-  // Simulate progress
-  pingProgress.value = 0
-  const interval = setInterval(() => {
-    if (pingProgress.value >= 100) {
-      clearInterval(interval)
-    } else {
-      pingProgress.value += 10
+const handleStartPing = async () => {
+  loading.value = true
+  try {
+    const config = {
+      ips: store.pingTab.pingList,
+      duration: displayDuration.value,
+      useIPv4: store.pingTab.useIPv4,
+      useIPv6: store.pingTab.useIPv6,
+      device: store.deviceInfo
     }
-  }, 200)
+    await startPingTest(config)
+    
+    // Simulate progress
+    pingProgress.value = 0
+    const interval = setInterval(() => {
+      if (pingProgress.value >= 100) {
+        clearInterval(interval)
+        loading.value = false
+      } else {
+        pingProgress.value += 10
+      }
+    }, 200)
+  } catch (error) {
+    console.error(error)
+    loading.value = false
+  }
 }
 </script>
 

@@ -14,7 +14,7 @@
                 <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mb-2 d-block">YouTube Linki</label>
                 <div class="d-flex gap-4">
                   <v-text-field
-                    v-model="youtubeLink"
+                    v-model="store.pcTab.youtubeLink"
                     placeholder="https://youtube.com/RNVNLJSUFdE"
                     variant="solo"
                     bg-color="rgba(255,255,255,0.05)"
@@ -40,7 +40,7 @@
                 <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mb-2 d-block">Torrent Magnet</label>
                 <div class="d-flex gap-4 align-start">
                   <v-text-field
-                    v-model="torrentMagnet"
+                    v-model="store.pcTab.torrentMagnetLink"
                     placeholder="magnet:?xt=urn:btih:592124D..."
                     variant="solo"
                     bg-color="rgba(255,255,255,0.05)"
@@ -69,7 +69,7 @@
                       @change="handleFileChange"
                       accept="image/*,.pdf" >
                     
-                    <p class="mt-3" v-if="selectedFile">{{ selectedFile.name }} adlı dosya seçildi.</p>
+                    <p class="mt-3" v-if="store.pcTab.torrentFile">{{ store.pcTab.torrentFile.name }} adlı dosya seçildi.</p>
                   </div>
                   <v-btn
                     color="primary"
@@ -100,7 +100,7 @@
                 <div class="d-flex align-center">
                    <span class="text-h6 text-white mr-4 font-weight-bold">COM!</span>
                    <v-text-field
-                    v-model="baudRate"
+                    v-model="store.pcTab.baudRate"
                     type="number"
                     variant="solo"
                     bg-color="rgba(255,255,255,0.05)"
@@ -165,13 +165,16 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useAuthStore } from '../store/auth'
+import { useAppStore } from '@/store/appStore'
 
 const authStore = useAuthStore()
+const store = useAppStore()
+
 // Dosya input elementine erişim için ref oluşturuyoruz
 const fileInputRef = ref(null);
 
-// Seçilen dosyayı tutmak için ref oluşturuyoruz
-const selectedFile = ref(null);
+// Seçilen dosyayı tutmak için ref yerine store kullanıyoruz
+// const selectedFile = ref(null); -> store.pcTab.torrentFile
 
 /**
  * Butona tıklandığında gizli input'u tetikler.
@@ -193,17 +196,17 @@ const handleFileChange = (event) => {
   
   if (files.length > 0) {
     // İlk dosyayı al ve ref'e ata
-    selectedFile.value = files[0];
+    store.pcTab.torrentFile = files[0];
     
-    console.log('✅ Seçilen Dosya Adı:', selectedFile.value.name);
-    console.log('📁 Seçilen Dosya Obj:', selectedFile.value);
+    console.log('✅ Seçilen Dosya Adı:', store.pcTab.torrentFile.name);
+    console.log('📁 Seçilen Dosya Obj:', store.pcTab.torrentFile);
 
     // TODO: Burada dosyayı sunucuya yükleme veya işleme kodunu çağırın.
-    // Örneğin: uploadFile(selectedFile.value);
+    // Örneğin: uploadFile(store.pcTab.torrentFile);
     
   } else {
     // Dosya seçimi iptal edildi.
-    selectedFile.value = null;
+    store.pcTab.torrentFile = null;
     console.log('Dosya seçimi iptal edildi.');
   }
 
@@ -220,11 +223,11 @@ const userInitials = computed(() => {
 })
 
 // YouTube & Torrent Settings
-const youtubeLink = ref('')
-const torrentMagnet = ref('')
+// youtubeLink -> store.pcTab.youtubeLink
+// torrentMagnet -> store.pcTab.torrentMagnetLink
 
 const startYoutube = () => {
-  console.log('Starting YouTube with link:', youtubeLink.value)
+  console.log('Starting YouTube with link:', store.pcTab.youtubeLink)
 }
 
 // const selectFile = () => {
@@ -232,15 +235,15 @@ const startYoutube = () => {
 // }
 
 const startTorrent = () => {
-  console.log('Starting Torrent with magnet:', torrentMagnet.value)
+  console.log('Starting Torrent with magnet:', store.pcTab.torrentMagnetLink)
 }
 
 // Serial Settings
-const baudRate = ref(115200)
+// baudRate -> store.pcTab.baudRate
 const serialProgress = ref(0)
 
 const startSerial = () => {
-  console.log('Starting Serial Monitoring with Baud Rate:', baudRate.value)
+  console.log('Starting Serial Monitoring with Baud Rate:', store.pcTab.baudRate)
   serialProgress.value = 0
   const interval = setInterval(() => {
     if (serialProgress.value >= 100) {

@@ -49,4 +49,30 @@ api.interceptors.response.use(
     }
 )
 
+// Mock Services
+export const getBrands = () => {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve([
+                { title: 'Brand A', value: 'Brand A', models: ['Model X', 'Model Y'] },
+                { title: 'Brand B', value: 'Brand B', models: ['Model Z'] }
+            ])
+        }, 500)
+    })
+}
+
+export const saveNewDevice = (brand, model) => {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            console.log(`Device Saved: ${brand} - ${model}`)
+            resolve({ success: true })
+        }, 500)
+    })
+}
+
+export const startPingTest = (config) => {
+    console.log('Starting Ping Test with config:', config)
+    return Promise.resolve({ success: true })
+}
+
 export default api

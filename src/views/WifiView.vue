@@ -12,7 +12,7 @@
               <div class="mb-6">
                 <label class="text-subtitle-1 text-grey-lighten-1 font-weight-small mb-2 d-block">Süre (sn)</label>
                 <v-text-field
-                  v-model="wifiSettings.duration"
+                  v-model="wifiDuration"
                   type="number"
                   variant="solo"
                   bg-color="rgba(255,255,255,0.05)"
@@ -78,7 +78,7 @@
                 <v-col cols="12" sm="6">
                   <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mb-2 d-block">Marka</label>
                   <v-text-field
-                    v-model="speedTestSettings.brand"
+                    v-model="store.wifiTab.speedTestSettings.brand"
                     variant="solo"
                     bg-color="rgba(255,255,255,0.05)"
                     density="compact"
@@ -89,7 +89,7 @@
                 <v-col cols="12" sm="6">
                   <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mb-2 d-block">Model</label>
                   <v-text-field
-                    v-model="speedTestSettings.model"
+                    v-model="store.wifiTab.speedTestSettings.model"
                     variant="solo"
                     bg-color="rgba(255,255,255,0.05)"
                     density="compact"
@@ -101,7 +101,7 @@
                 <v-col cols="12" sm="6">
                   <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mb-2 d-block">Periyot (dk)</label>
                   <v-text-field
-                    v-model="speedTestSettings.period"
+                    v-model="store.wifiTab.speedTestSettings.period"
                     type="number"
                     variant="solo"
                     bg-color="rgba(255,255,255,0.05)"
@@ -113,7 +113,7 @@
                 <v-col cols="12" sm="6">
                   <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mb-2 d-block">Test adedi</label>
                   <v-text-field
-                    v-model="speedTestSettings.count"
+                    v-model="store.wifiTab.speedTestSettings.count"
                     type="number"
                     variant="solo"
                     bg-color="rgba(255,255,255,0.05)"
@@ -126,7 +126,7 @@
                 <v-col cols="12">
                    <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mb-2 d-block">Firmware</label>
                    <v-text-field
-                    v-model="speedTestSettings.firmware"
+                    v-model="store.wifiTab.speedTestSettings.firmware"
                     placeholder="Firmware Belirtiniz..."
                     variant="solo"
                     bg-color="rgba(255,255,255,0.05)"
@@ -139,7 +139,7 @@
                 <v-col cols="12">
                    <label class="text-subtitle-1 text-grey-lighten-1 font-weight-medium mb-2 d-block">Server ID</label>
                    <v-text-field
-                    v-model="speedTestSettings.serverId"
+                    v-model="store.wifiTab.speedTestSettings.serverId"
                     variant="solo"
                     bg-color="rgba(255,255,255,0.05)"
                     density="compact"
@@ -232,8 +232,10 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useAuthStore } from '../store/auth'
+import { useAppStore } from '@/store/appStore'
 
 const authStore = useAuthStore()
+const store = useAppStore()
 
 const userInitials = computed(() => {
   if (authStore.user && authStore.user.name) {
@@ -243,24 +245,19 @@ const userInitials = computed(() => {
 })
 
 // Wi-Fi Analysis Settings
-const wifiSettings = ref({
-  duration: 70000
+const wifiDuration = computed({
+  get: () => store.wifiTab.wifiDuration ?? store.globalConfig.defaultDuration,
+  set: (val) => store.setWifiDuration(val)
 })
 const wifiProgress = ref(0)
 
 // Speed Test Settings
-const speedTestSettings = ref({
-  brand: 'TP-Link',
-  model: 'ARCHER-C5V1',
-  period: 30,
-  count: 38,
-  firmware: '',
-  serverId: 4667
-})
+// Using store.wifiTab.speedTestSettings directly in template
+
 const speedTestProgress = ref(0)
 
 const clearSpeedTestSettings = () => {
-  speedTestSettings.value = {
+  store.wifiTab.speedTestSettings = {
     brand: 'TP-Link',
     model: 'ARCHER-C5V1',
     period: 30,
@@ -272,7 +269,7 @@ const clearSpeedTestSettings = () => {
 }
 
 const startWifiAnalysis = () => {
-  console.log('Starting Wi-Fi Analysis with settings:', wifiSettings.value)
+  console.log('Starting Wi-Fi Analysis with duration:', wifiDuration.value)
   wifiProgress.value = 0
   const interval = setInterval(() => {
     if (wifiProgress.value >= 100) {
@@ -284,7 +281,7 @@ const startWifiAnalysis = () => {
 }
 
 const startSpeedTest = () => {
-  console.log('Starting Speed Test with settings:', speedTestSettings.value)
+  console.log('Starting Speed Test with settings:', store.wifiTab.speedTestSettings)
   speedTestProgress.value = 0
   const interval = setInterval(() => {
     if (speedTestProgress.value >= 100) {

@@ -30,7 +30,7 @@
 
                 <template v-slot:append>
                   <v-switch
-                    v-model="selectedModem"
+                    v-model="store.cpeTab.selectedModem"
                     :value="modem.id"
                     color="primary"
                     hide-details
@@ -51,7 +51,7 @@
                 rounded="xl"
                 elevation="0"
                 @click="startSelectedModem"
-                :disabled="!selectedModem"
+                :disabled="!store.cpeTab.selectedModem"
               >
                 Seçili Modemi Başlat
               </v-btn>
@@ -105,8 +105,10 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useAuthStore } from '../store/auth'
+import { useAppStore } from '@/store/appStore'
 
 const authStore = useAuthStore()
+const store = useAppStore()
 
 const userInitials = computed(() => {
   if (authStore.user && authStore.user.name) {
@@ -115,7 +117,7 @@ const userInitials = computed(() => {
   return 'Kullanıcı'
 })
 
-const selectedModem = ref(null)
+// selectedModem is now in store.cpeTab.selectedModem
 
 const modems = [
   { id: 'vx231', name: 'TP-Link VX231', tech: 'DSL & Wi-Fi 6' },
@@ -125,8 +127,8 @@ const modems = [
 ]
 
 const startSelectedModem = () => {
-  if (selectedModem.value) {
-    console.log('Starting modem automation for:', selectedModem.value)
+  if (store.cpeTab.selectedModem) {
+    console.log('Starting modem automation for:', store.cpeTab.selectedModem)
     // Add automation logic here
   }
 }
